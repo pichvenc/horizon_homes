@@ -1,0 +1,128 @@
+{% extends 'layouts/base_template.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block title %}
+	Horizon Homes
+{% endblock %}
+{% block content %}
+	<div
+			class="hero page-inner overlay"
+			style="background-image: url('{% static 'app/images/hero_bg_3.jpg' %}')"
+	>
+		<div class="container">
+			<div class="row justify-content-center align-items-center">
+				{% include 'partials/alerts.html' %}
+				<div class="col-lg-9 text-center mt-5">
+					<h1 class="heading" data-aos="fade-up">
+						{{ property.location }}
+					</h1>
+
+					<nav
+							aria-label="breadcrumb"
+							data-aos="fade-up"
+							data-aos-delay="200"
+					>
+						<ol class="breadcrumb text-center justify-content-center">
+							<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+							<li class="breadcrumb-item">
+								<a href="{% url 'properties' %}">Properties</a>
+							</li>
+							<li
+									class="breadcrumb-item active text-white-50"
+									aria-current="page"
+							>
+								{{ property.location }}
+							</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="section">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-lg-7">
+					<div class="img-property-slide-wrap">
+						<div class="img-property-slide">
+							<img src="{{ property.images.url }}" alt="Image" class="img-fluid"/>
+							<img src="{{ property.images.url }}" alt="Image" class="img-fluid"/>
+							<img src="{{ property.images.url }}" alt="Image" class="img-fluid"/>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<h2 class="heading text-primary">{{ property.location }}</h2>
+					<p class="meta">{{ property.county }}, {{ property.country }}</p>
+					<p class="text-black-50">
+						{{ property.description }}
+					</p>
+
+					<div class="d-block agent-box p-5">
+						<div class="img mb-4">
+							<img
+									src="{% static 'app/images/person_2-min.jpg' %}"
+									alt="Image"
+									class="img-fluid"
+							/>
+						</div>
+						<div class="text">
+							<h3 class="mb-0">Alicia Huston</h3>
+							<div class="meta mb-3">Real Estate</div>
+							<p>
+								Experienced real estate agent dedicated to finding the perfect home for you. Let's make
+								your dreams a reality!
+							</p>
+							<ul class="list-unstyled social dark-hover d-flex">
+								<li class="me-1">
+									<a href="#"><span class="icon-instagram"></span></a>
+								</li>
+								<li class="me-1">
+									<a href="#"><span class="icon-twitter"></span></a>
+								</li>
+								<li class="me-1">
+									<a href="#"><span class="icon-facebook"></span></a>
+								</li>
+								<li class="me-1">
+									<a href="#"><span class="icon-linkedin"></span></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- Button trigger modal -->
+					<button type="button" class="mt-2 mt-md-4 btn btn-primary" data-bs-toggle="modal"
+					        data-bs-target="#exampleModal">
+						Book View Date
+					</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+					     aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">View Listing Booking</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+									        aria-label="Close"></button>
+								</div>
+								<form action="{% url 'book_viewing' property.id %}" method="post">
+									{% csrf_token %}
+									<div class="modal-body">
+										{{ form | crispy }}
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
+										</button>
+										<button type="submit" class="btn btn-primary">Book</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
